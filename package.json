@@ -1,5 +1,5 @@
 {
-  "name": "module-13-challenge-orm",
+  "name": "orm_e_commerce_back_end",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -11,18 +11,22 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@work.github.com:coding-boot-camp/module-13-challenge-orm.git"
+    "url": "git+https://github.com/jheeebert/orm_e_commerce_back_end.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jheeebert/orm_e_commerce_back_end/issues"
+  },
+  "homepage": "https://github.com/jheeebert/orm_e_commerce_back_end#readme",
   "devDependencies": {
     "nodemon": "^2.0.3"
   },
   "dependencies": {
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "mysql2": "^2.1.0",
-    "sequelize": "^5.21.7"
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mysql2": "^3.5.1",
+    "sequelize": "^6.32.1"
   }
 }

@@ -31,6 +31,10 @@ router.get('/:id', async (req, res) => {
       ]
     });
     res.status(200).json(tagData);
+    if (!tagData) {
+      res.status(404).json({ message: 'No tag found with that id!' });
+      return;
+      }
     } catch (error) {
       res.status(500).json(error);
     }
@@ -49,17 +53,17 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     // update a tag by its `id
-    const tagData = await Tag.update(req.body, {
+    const updateTag = await Tag.update(req.body, {
   // update a tag's name by its `id` value
       where: {
        tag_id: req.params.id,
       },
     });
-    if (!tagData) {
+    if (!updateTag) {
       res.status(404).json({ message: 'No tag found with that id!' });
       return;
     }
-    res.status(200).json(tagData);
+    res.status(200).json(updateTag);
     } catch (error) {
       res.status(500).json(error);
     }
@@ -68,16 +72,16 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
   // delete on tag by its `id` value
-  const tagData = await Tag.destroy({
+  const deleteTag = await Tag.destroy({
     where: {
      tag_id: req.params.id,
     },
     });
-    if (!tagData) {
+    if (!deleteTag) {
       res.status(404).json({ message: 'No tag found with that id!' });
       return;
     }
-    res.status(200).json(tagData);
+    res.status(200).json(deleteTag);
     } catch (error) {
       res.status(500).json(error);
     }

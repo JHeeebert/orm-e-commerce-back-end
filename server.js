@@ -24,3 +24,5 @@ sequelize
   }
   );
 
+module.exports = app;
+

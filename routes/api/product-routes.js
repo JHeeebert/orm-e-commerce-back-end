@@ -70,7 +70,7 @@ router.put('/:id', async (req, res) => {
   // update product data
   Product.update(req.body, {
     where: {
-      id: req.params.id,
+      product_id: req.params.id,
     },
   })
     .then((product) => {
@@ -115,7 +115,7 @@ router.delete('/:id', async (req, res) => {
   // delete one product by its `id` value
   const productData = await Product.destroy({
     where: {
-      id: req.params.id,
+     product_id: req.params.id,
     }
     });
     if (!productData) {

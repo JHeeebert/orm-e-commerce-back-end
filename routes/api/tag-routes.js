@@ -11,9 +11,6 @@ router.get('/', async (req, res) => {
       include: [
         { model: Product, through: ProductTag }
       ],
-      order: [
-        ['name', 'ASC']
-      ]
     });
     res.status(200).json(tagData);
   } catch (error) {
@@ -43,8 +40,8 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     // create a new tag
-    const tagData = await Tag.create(req.body);
-    res.status(200).json(tagData);
+    const newTag = await Tag.create(req.body);
+    res.status(200).json(newTag);
   } catch (error) {
     res.status(400).json(error);
   }
@@ -53,17 +50,13 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     // update a tag by its `id
-    const updateTag = await Tag.update(req.body, {
-      // update a tag's name by its `id` value
-      where: {
-        tag_id: req.params.id,
-      },
-    });
-    if (!updateTag) {
-      res.status(404).json({ message: 'No tag found with that id!' });
-      return;
-    }
-    res.status(200).json(updateTag);
+    const updatedTag = await Tag.update(
+// Update the tag_name field with the data from req.body
+      { tag_name: req.body.tag_name },
+// Update the tag with the matching id using the req.params.id
+      { where: { tag_id: req.params.id } }
+    );
+    res.status(200).json(updatedTag);
   } catch (error) {
     res.status(500).json(error);
   }
@@ -72,16 +65,16 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     // delete on tag by its `id` value
-    const deleteTag = await Tag.destroy({
+    const deletedTag = await Tag.destroy({
       where: {
         tag_id: req.params.id,
       },
     });
-    if (!deleteTag) {
+    if (!deletedTag) {
       res.status(404).json({ message: 'No tag found with that id!' });
       return;
     }
-    res.status(200).json(deleteTag);
+    res.status(200).json(deletedTag);
   } catch (error) {
     res.status(500).json(error);
   }

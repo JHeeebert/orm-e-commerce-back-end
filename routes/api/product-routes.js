@@ -59,11 +59,11 @@ router.post('/', async (req, res) => {
 // update a product by its `id` value
 router.put("/:id", async (req, res) => {
   try {
-    console.log("Request Body:", req.body); // Debugging
+    // console.log("Request Body:", req.body); // Debugging
     const productId = req.params.id;
-    console.log("Product ID:", productId); // Debugging
+    // console.log("Product ID:", productId); // Debugging
     const updatedProduct = await Product.findByPk(productId);
-    console.log("Updated Product:", updatedProduct); // Debugging
+    // console.log("Updated Product:", updatedProduct); // Debugging
 
     if (!updatedProduct) {
       res.status(404).json({ message: "No product found with this id." });

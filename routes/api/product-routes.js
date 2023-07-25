@@ -64,15 +64,12 @@ router.put("/:id", async (req, res) => {
     // console.log("Product ID:", productId); // Debugging
     const updatedProduct = await Product.findByPk(productId);
     // console.log("Updated Product:", updatedProduct); // Debugging
-
     if (!updatedProduct) {
       res.status(404).json({ message: "No product found with this id." });
       return;
     }
-
     const updatedProductData = req.body;
     await updatedProduct.update(updatedProductData);
-
     if (req.body.tagIds && req.body.tagIds.length) {
       await updatedProduct.setTag(req.body.tagIds);
       const tags = await updatedProduct.getTag();
@@ -80,7 +77,6 @@ router.put("/:id", async (req, res) => {
     } else {
       updatedProduct.tag = [];
     }
-
     res.json(updatedProduct);
   } catch (error) {
     console.error(error);

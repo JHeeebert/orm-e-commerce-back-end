@@ -56,49 +56,44 @@ router.post('/', async (req, res) => {
     res.status(400).json(error);
   }
 });
-// update product
-router.put('/:id', async (req, res) => {
-  // update product data
-try {
-  const updatedProduct = await Product.update(req.body, {
-    where: {
-          product_id: req.params.id,
-        },
-      });
-      // find all associated tags from ProductTag
-      const productTag = await ProductTag.findAll({ where: { product_id: req.params.id } });
-      // get list of current tag_ids
-      const productTagId = productTag.map(({ tag_id }) => tag_id);
-      // create filtered list of new tag_ids
-      const newProductTag = req.body.tagId
-        .filter((tag_id) => !productTagId.includes(tag_id))
-        .map((tag_id) => {
-          return {
-            product_id: req.params.id,
-            tag_id,
-          };
-        });
-      // figure out which ones to remove
-      const productTagToRemove = productTag
-        .filter(({ tag_id }) => !req.body.tagId.includes(tag_id))
-        .map(({ product_tag_id }) => product_tag_id);
-      // run both actions
-      const updatedProductTag = await Promise.all([
-        ProductTag.destroy({ where: { product_tag_id: productTagToRemove } }),
-        ProductTag.bulkCreate(newProductTag),
-      ]);
-      res.status(200).json(updatedProductTag);
-    } catch (error) {
-      res.status(400).json(error);
+// update a product by its `id` value
+router.put("/:id", async (req, res) => {
+  try {
+    console.log("Request Body:", req.body); // Debugging
+    const productId = req.params.id;
+    console.log("Product ID:", productId); // Debugging
+    const updatedProduct = await Product.findByPk(productId);
+    console.log("Updated Product:", updatedProduct); // Debugging
+
+    if (!updatedProduct) {
+      res.status(404).json({ message: "No product found with this id." });
+      return;
     }
-  });
-  
+
+    const updatedProductData = req.body;
+    await updatedProduct.update(updatedProductData);
+
+    if (req.body.tagIds && req.body.tagIds.length) {
+      await updatedProduct.setTag(req.body.tagIds);
+      const tags = await updatedProduct.getTag();
+      updatedProduct.tag = tags;
+    } else {
+      updatedProduct.tag = [];
+    }
+
+    res.json(updatedProduct);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+// delete product
 router.delete('/:id', async (req, res) => {
   try {
     // delete one product by its `id` value
     const deleteProduct = await Product.destroy({
       where: {
-        product_id: req.params.id,
+        id: req.params.id,
       }
     });
     if (!deleteProduct) {

@@ -1,9 +1,8 @@
+// This file is for the Tag model, which is used to create the Tag table in the database.
 const { Model, DataTypes } = require('sequelize');
-
 const sequelize = require('../config/connection.js');
-
 class Tag extends Model {}
-
+// create fields/columns for Tag model
 Tag.init(
   {
     // define columns
@@ -17,6 +16,7 @@ Tag.init(
       type: DataTypes.STRING,
     },
   },
+// pass in our imported sequelize connection (the direct connection to our database)
     {
     sequelize,
     timestamps: false,
@@ -25,5 +25,5 @@ Tag.init(
     modelName: 'tag',
   }
 );
-
+// export model
 module.exports = Tag;

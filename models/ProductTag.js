@@ -1,9 +1,8 @@
+// Description: Model for ProductTag table
 const { Model, DataTypes } = require('sequelize');
-
 const sequelize = require('../config/connection');
-
 class ProductTag extends Model {}
-
+// create fields/columns for ProductTag model
 ProductTag.init(
   {
     // define columns
@@ -30,6 +29,7 @@ ProductTag.init(
       },
     },
   },
+// pass in our imported sequelize connection (the direct connection to our database)
   {
     sequelize,
     timestamps: false,
@@ -38,5 +38,5 @@ ProductTag.init(
     modelName: 'product_tag',
   }
 );
-
+// export model
 module.exports = ProductTag;

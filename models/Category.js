@@ -1,9 +1,8 @@
+// Description: Model for Category table
 const { Model, DataTypes } = require('sequelize');
-
 const sequelize = require('../config/connection.js');
-
 class Category extends Model {}
-
+// create fields/columns for Category model
 Category.init(
   {
     // define columns
@@ -18,6 +17,7 @@ Category.init(
       allowNull: false,
     },
   },
+// pass in our imported sequelize connection (the direct connection to our database)
   {
     sequelize,
     timestamps: false,
@@ -26,5 +26,5 @@ Category.init(
     modelName: 'category',
   }
 );
-
+// export model
 module.exports = Category;
